@@ -56,10 +56,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\contacto','id_user')->select('contacto','logo as icon');              
     }
+
     public function galerias()
     {
         return $this->hasMany('App\galeria','id_user');              
     }
+
     public function galeriaForSearch()
     {
         return $this->hasMany('App\galeria','id_user')->select('descripcion','imagen');              
