@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\_palabras_clave;
 use App\contacto;
+use App\galeria;
 use App\oferta;
 use App\trabajo;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SearchController extends Controller
 {
@@ -38,12 +40,26 @@ class SearchController extends Controller
     {
         $user = User::find($id);
         if ($user === null) {
-            // Devuelve un mensaje indicando que no existe un usuario con el id recibido.
             return response()->json('Not fount user',400);
         }
-        $job = oferta::where('id_user', $id)->get();
-        $palabras = _palabras_clave::where('id_user', $id)->get();
-        $contactos = contacto::where('id_user', $id)->get();
-        return response()->json(['user'=>$user,'trabajos'=>$job,'palabras'=>$palabras,'contactos'=>$contactos],200);   
+        // $ofertas = oferta::where('id_user', $id)->get();
+        // $palabras = _palabras_clave::where('id_user', $id)->get();
+        // $contactos = contacto::where('id_user', $id)->get();
+        // return response()->json(['user'=>$user,'ofertas'=>$ofertas,'palabras'=>$palabras,'contactos'=>$contactos],200);   
+
+        // $id = $request->user()->id;
+        // $contacto = contacto::where('id_user', $id)->get();
+        // $contacto = $user->contactos;
+        // $oferta = $user->ofertas;       
+        // $galeria = $user->galerias;
+        $user->contactosForSearch;
+        $user->ofertasForSearch;       
+        $galeria = $user->galeriaForSearch;
+        if($user->local)
+        {
+            $user->locales;      
+            // return response()->json(['user'=>$user]);
+        }
+        return response()->json(['user'=>$user]);
     }
 }

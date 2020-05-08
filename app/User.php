@@ -42,18 +42,31 @@ class User extends Authenticatable
         return $this->hasMany('App\oferta','id_user');              
     }
 
+    public function ofertasForSearch()
+    {
+        return $this->hasMany('App\oferta','id_user')->select('oferta');              
+    }
+
     public function contactos()
     {
         return $this->hasMany('App\contacto','id_user');              
     }
 
+    public function contactosForSearch()
+    {
+        return $this->hasMany('App\contacto','id_user')->select('contacto','logo as icon');              
+    }
     public function galerias()
     {
         return $this->hasMany('App\galeria','id_user');              
     }
+    public function galeriaForSearch()
+    {
+        return $this->hasMany('App\galeria','id_user')->select('descripcion','imagen');              
+    }
 
     public function locales()
     {
-        return $this->hasMany('App\locale','id_user');              
+        return $this->hasMany('App\locale','id_user')->select('latitud','longitud');              
     }
 }

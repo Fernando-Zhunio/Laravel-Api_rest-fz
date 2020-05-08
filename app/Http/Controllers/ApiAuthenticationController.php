@@ -6,10 +6,12 @@ use App\contacto;
 use App\Rules\validar_arreglos_rule;
 use App\User;
 use App\_palabras_clave;
+use App\galeria;
 use App\locale;
 use App\oferta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -168,6 +170,15 @@ class ApiAuthenticationController extends Controller
         $contacto = $request->user()->contactos;
         // $oferta = oferta::where('id_user', $id)->get();       
         $oferta = $request->user()->ofertas()->get('oferta');       
+        $galeria = $request->user()->galerias;
+        $request->user()->locales;
+        foreach ($galeria as $imagen ) {
+            $image_path = "/imagenes/Galeria".$imagen->imagen;  // Value is not URL but directory file path
+            if(!File::exists($image_path))
+            {
+                galeria::destroy($imagen->id);
+            }
+        }
         $galeria = $request->user()->galerias;
         if($request->user()->local)
         {
